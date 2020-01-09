@@ -35,14 +35,14 @@ class Co2Chart extends Component {
 
   render(){
     return(
-      <p>
+      <div>
         <div>
           取得時間：{this.data.createDatetime}
         </div>
         <div>
           CO2濃度：{this.data.co2Concentration}
         </div>
-      </p>
+      </div>
     );
   }
 }
