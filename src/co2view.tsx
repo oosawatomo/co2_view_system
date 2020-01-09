@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Co2Chart from './Co2Chart';
 import Co2Now from './Co2Now';
 
-//ReactDOM.render(<App />, document.getElementById('root'));
-ReactDOM.render(<Co2Chart />, document.getElementById('root'));
+ReactDOM.render(<Co2Chart />, document.getElementById('co2chart'));
 ReactDOM.render(<Co2Now />, document.getElementById('co2now'));
 
 
