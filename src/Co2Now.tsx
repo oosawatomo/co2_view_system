@@ -40,8 +40,8 @@ class Co2Chart extends Component<{},State> {
 
   getNowCo2Record = ( ele:JsonCo2Data[] ) =>{
     for( let co2record of ele) {
-      let data = new Co2Record(co2record.createDatetime,co2record.co2Concentration);
-      this.setState({data:data});
+      let co2Record = new Co2Record(co2record.createDatetime,co2record.co2Concentration);
+      this.setState({data:co2Record});
     }
   };
 
