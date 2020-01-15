@@ -5,41 +5,40 @@ import {Line} from 'react-chartjs-2';
 import Co2Record from './type/Co2Record'
 
 
-class Co2Chart extends Component {
-  data: any;
+class Co2Chart extends Component<{},{}> {
 
-  constructor(props:any) {
+  constructor(props:{}) {
     super(props);
-    
-    this.data = {};
+    this.setState({});
+  }
+
+  componentDidMount =() =>{
     this.reload();
   }
 
   reload =() => {
-    let pro = this.getCo2RecordApi().then( ele => this.getCo2Record(ele));
-    pro.then(() => this.setState(data => data = this.data ));
+    this.getCo2RecordApi().then( ele => this.getCo2Record(ele));
   }
 
   getCo2RecordApi = async () => {
     try {
-      const result = await axios.get(`${"http://192.168.39.157/ktor/co2concentration/day"}`);
+      const result = await axios.get("http://192.168.39.157/ktor/co2concentration/day");
       return result.data;
     } catch (error) {
       console.log("error!!");
     }
-  
   };
 
   getCo2Record = (ele: Co2Record[]) =>{
-    let datetime: any[] = [];
-    let co2: any[] = [];
+    let datetime: String[] = [];
+    let co2: Number[] = [];
 
     for( let co2record of ele) {
       datetime.push( co2record.createDatetime );
       co2.push( co2record.co2Concentration );
     }
       
-    this.data = {
+    let data:{} = {
       labels: datetime,
       datasets: [
         {
@@ -64,16 +63,16 @@ class Co2Chart extends Component {
         }
       ]
     };
+    this.setState(data);
   };
 
   render(){
     return(
       <p>
-        <Line data={this.data}　/>
+        <Line data={this.state}　/>
       </p>
     );
   }
-
 }
 
 export default Co2Chart;
