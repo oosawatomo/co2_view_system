@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import axios from 'axios';
-import Co2Record from './type/Co2Record'
+import Co2Record from './Co2Record'
 import './Co2Chart.css';
 
 interface State {
@@ -8,8 +8,8 @@ interface State {
 }
 
 interface JsonCo2Data {
-  createDatetime:String;
-  co2Concentration:Number
+  createDatetime:string;
+  co2Concentration:number
 }
 
 class Co2Chart extends Component<{},State> {
@@ -21,15 +21,15 @@ class Co2Chart extends Component<{},State> {
     this.setState({});
   }
 
-  componentDidMount =() =>{
+  componentDidMount() {
     this.reload();
   }
 
-  reload =() => {
-    this.getNowCo2RecordApi().then( ele => this.getNowCo2Record(ele));
+  private async reload() {
+    this.getNowCo2Record( await this.getNowCo2RecordApi() );
   }
 
-  getNowCo2RecordApi = async () => {
+  private async getNowCo2RecordApi() {
     try {
       const result = await axios.get("http://192.168.39.157/ktor/co2concentration/now");
       return result.data;
@@ -38,11 +38,9 @@ class Co2Chart extends Component<{},State> {
     }
   };
 
-  getNowCo2Record = ( ele:JsonCo2Data[] ) =>{
-    for( let co2record of ele) {
-      let co2Record = new Co2Record(co2record.createDatetime,co2record.co2Concentration);
-      this.setState({data:co2Record});
-    }
+  private getNowCo2Record( ele:JsonCo2Data[] ) {
+    let co2Record = new Co2Record(ele[0].createDatetime, ele[0].co2Concentration);
+    this.setState({data:co2Record});
   };
 
   render(){

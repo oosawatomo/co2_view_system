@@ -1261,6 +1261,13 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/chart.js@^2.9.11":
+  version "2.9.11"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.9.11.tgz#2b73fe59e78dfe31c2f8d6c6d0c169e98e65c16b"
+  integrity sha512-xuDh5pZWci1Z5DUkiGTTLIBymxUe8KMfo1JYM5HTY7LXURSCej458uMrD4eYn4v+BTYTZfKlTRNIk8jW4nTaOg==
+  dependencies:
+    moment "^2.10.2"
+
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"

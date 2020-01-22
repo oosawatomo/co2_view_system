@@ -2,25 +2,28 @@ import React,{Component} from 'react';
 import axios from 'axios';
 import './Co2Chart.css';
 import {Line} from 'react-chartjs-2';
-import Co2Record from './type/Co2Record'
+import Co2Record from './Co2Record'
+import { ChartData, ChartDataSets } from 'chart.js';
 
 
-class Co2Chart extends Component<{},{}> {
+class Co2Chart extends Component<{},ChartData> {
 
   constructor(props:{}) {
     super(props);
     this.setState({});
   }
 
-  componentDidMount =() =>{
+  componentDidMount() {
     this.reload();
   }
 
-  reload =() => {
-    this.getCo2RecordApi().then( ele => this.getCo2Record(ele));
+  //グラフ表示のメソッド
+  private async reload() {
+    let chartData :ChartData = this.getCo2Record(await this.getCo2RecordApi());
+    this.setState(chartData);
   }
 
-  getCo2RecordApi = async () => {
+  private async getCo2RecordApi() {
     try {
       const result = await axios.get("http://192.168.39.157/ktor/co2concentration/day");
       return result.data;
@@ -29,47 +32,38 @@ class Co2Chart extends Component<{},{}> {
     }
   };
 
-  getCo2Record = (ele: Co2Record[]) =>{
-    let datetime: String[] = [];
-    let co2: Number[] = [];
+  private getCo2Record(ele: Co2Record[]) {
+    let datetime: string[] = [];
+    let co2: number[] = [];
 
     for( let co2record of ele) {
       datetime.push( co2record.createDatetime );
       co2.push( co2record.co2Concentration );
     }
-      
-    let data:{} = {
+
+    //CO2濃度のグラフデータセット
+    let co2Dataset:ChartDataSets = {
+      label: 'CO2濃度',
+      fill: true,
+      backgroundColor: 'rgba(75,192,192,0.4)',
+      borderColor: 'rgba(75,192,192,1)',
+      pointHoverBorderWidth: 1,
+      pointRadius: 1,
+      data: co2
+    }
+
+    let data:ChartData = {
       labels: datetime,
-      datasets: [
-        {
-          label: 'CO2濃度',
-          fill: true,
-          lineTension: 0.1,
-          backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: 'rgba(75,192,192,1)',
-          borderCapStyle: 'round',
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'square',
-          pointBorderColor: 'rgba(75,192,192,1)',
-          pointBackgroundColor: '#eee',
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-          pointHoverBorderColor: 'rgba(220,220,220,1)',
-          pointHoverBorderWidth: 1,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: co2
-        }
-      ]
+      datasets: [co2Dataset]
     };
-    this.setState(data);
+
+    return data;
   };
 
   render(){
     return(
       <p>
-        <Line data={this.state}　/>
+        <Line data={this.state}/>
       </p>
     );
   }
