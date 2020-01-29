@@ -25,7 +25,7 @@ class Co2Chart extends Component<{},ChartData> {
 
   private async getCo2RecordApi() {
     try {
-      const result = await axios.get("http://192.168.39.157/ktor/co2concentration/day");
+      const result = await axios.get("http://192.168.39.156:8080/co2concentration/day");
       return result.data;
     } catch (error) {
       console.log("error!!");
